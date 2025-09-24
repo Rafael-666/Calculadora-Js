@@ -1,16 +1,18 @@
+// Garante que o script só vai rodar depois que todo o HTML for carregado.
+document.addEventListener('DOMContentLoaded', () => {
 const visor = document.getElementById('visor');
 const botoesNumero = document.querySelectorAll('.numero');
 const botoesOperador = document.querySelectorAll('.operador');
 const botaoIgual = document.getElementById('igual');
 const botaoLimpar = document.getElementById('limpar');
 
-/*Strings para conseguir utilizar no calculo*/
+//Strings para conseguir utilizar no calculo
 let numeroAtual = '';
 let numeroAnterior = '';
 let operacao = null;
 
 
-/* O query selector vai pegar todos da class numero e o forEach vai percorrer cada um individualmente em busca do que foi clicado naquele momento*/
+// O query selector vai pegar todos da class numero e o forEach vai percorrer cada um individualmente em busca do que foi clicado naquele momento
 botoesNumero.forEach(botao => {
      botao.addEventListener('click', () => {
           numeroAtual += botao.textContent;
@@ -64,4 +66,5 @@ botaoLimpar.addEventListener('click', () => {
      numeroAnterior = '';
      operacao = null;
      visor.textContent = '0';
+});
 });
