@@ -3,39 +3,56 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Aula Jquery</title>
+    <title>Calculadora-JS</title>
     <link rel="stylesheet" type="text/css" href=style.css>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<!--Foi criado classes para ficar mais facil a minipulação dos dados -->
-<!--E os ID's para coisas com funções unicas -->
-    <div id="visor">0</div>
-    <div>
-        <button class="numero">1</button>
-        <button class="numero">2</button>
-        <button class="numero">3</button>
-        <button class="operador">+</button>
-    </div>
-    <div>
-        <button class="numero">4</button>
-        <button class="numero">5</button>
-        <button class="numero">6</button>
-        <button class="operador">-</button>
-    </div>
-    <div>
-        <button class="numero">7</button>
-        <button class="numero">8</button>
-        <button class="numero">9</button>
-        <button class="operador">x</button>
-    </div>
-    <div>
-        <button class="numero">0</button>
-        <button id="igual">=</button>
-        <button id="limpar">C</button>
-        <button class="operador">÷</button>
+    <!--Foi criado classes para ficar mais facil a minipulação dos dados -->
+    <!--E os ID's para coisas com funções unicas -->
+    <div class="calculadora">
+
+        <div class="display">
+            <div id="historico"></div>
+            <div id="visor">0</div>
+        </div>
+
+        
+            <button class="operador">%</button>
+            <button id="limparUltimo">CE</button>
+            <button id="limpar">C</button>
+            <button class="operador">÷</button>
+       
+
+        
+            <button class="numero">7</button>
+            <button class="numero">8</button>
+            <button class="numero">9</button>
+            <button class="operador">x</button>
+        
+
+        
+            <button class="numero">4</button>
+            <button class="numero">5</button>
+            <button class="numero">6</button>
+            <button class="operador">+</button>
+       
+
+        
+            <button class="numero">1</button>
+            <button class="numero">2</button>
+            <button class="numero">3</button>
+            <button class="operador">-</button>
+      
+
+       
+            <button id="inverteOperacao">+/-</button>
+            <button class="numero">0</button>
+            <button id="virgulas">,</button>
+            <button id="igual">=</button> 
+        
     </div>
     <script src="script.js"></script>
 </body>
