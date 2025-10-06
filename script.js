@@ -17,23 +17,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Funcao que concatena os numeros e atualiza visor
     function numeros(numero) {
-        numeroAtual += numero.textContent;
+        numeroAtual += numero;
         visor.textContent = numeroAtual;
     };
 
     //Identifica qual botao dos numeros foi clicado e chama a funcao numeros
     botoesNumero.forEach(numero => {
-        numero.addEventListener('click', () => numeros(numero))
+        numero.addEventListener('click', () => numeros(numero.textContent))
     });
 
+    function operadores(operador) {
+        if (numeroAtual === '') return; // Não permite operaçao sem numero
+        numeroAnterior = numeroAtual;
+        numeroAtual = '';
+        operacao = operador.textContent;
+
+    };
+
     //Botoes de operadores da calculadora
-    botoesOperador.forEach(botao => {
-        botao.addEventListener('click', () => {
-            if (numeroAtual === '') return; // Não permite operaçao sem numero
-            numeroAnterior = numeroAtual;
-            numeroAtual = '';
-            operacao = botao.textContent;
-        });
+    botoesOperador.forEach(operador => {
+        operador.addEventListener('click', () => operadores(operador))
+
     });
 
     //Funcao que calcula todas as operacoes e controla o historico do visor
@@ -78,53 +82,32 @@ document.addEventListener('DOMContentLoaded', () => {
         operacao = null;
     };
 
-    // TECLA ENTER e = para mostrar o resultado
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === '=') {
-            calcular();
-            event.preventDefault(); // evita o comportamento padrão do browser
-        }
-    });
+    // Recebe um evento para se usar no onEventHandler
+    const mostrarResultado = (event) => {
+        calcular();
+        event.preventDefault(); // evita o comportamento padrão do browser
+    }
 
-    // BOTAO de = da calculadora para mostrar o resultado
-    botaoIgual.addEventListener('click', calcular);
+    // Recebe um evento para se usar no onEventHandler
+    const backSpace = (event) => {
+        limparNumeroAtual();
+    };
 
+    // Funcao para limpar o numero atual no visor
+    function limparNumeroAtual() {
+        numeroAtual = '';
+        visor.textContent = '0';
+    };
+
+    //Funcao para apagar todos os dados
     function limpaTudo() {
         numeroAtual = '';
         numeroAnterior = '';
         operacao = null;
         visor.textContent = '0';
         historico.innerText = '';
-        expressao = '';
+        event.preventDefault();
     };
-
-    // Botão C limpa tudo da calculadora
-    botaoLimpar.addEventListener('click', limpaTudo);
-
-    //Tecla ESC do teclado para limpar tudo
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            limpaTudo();
-            event.preventDefault();
-        }
-    });
-
-    // Funcao para limpar o numero atual no visor
-    function limparNumeroAtual() {
-        numeroAtual = '';
-        visor.textContent = '0';
-    }
-
-    // BOTAO calculadora
-    botaoLimparUltimo.addEventListener('click', limparNumeroAtual);
-
-    //TECLA  backspace
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Backspace') {
-            limparNumeroAtual();
-            event.preventDefault();
-        }
-    });
 
     //Funcao que inverte o sinal do numero atual
     function inverteOperacao() {
@@ -133,6 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
         numeroAtual = resultado.toString();
         visor.textContent = numeroAtual;
     };
+
+    // Botão C limpa tudo da calculadora
+    botaoLimpar.addEventListener('click', limpaTudo);
+
+    //Botao de = da calculadora
+    botaoIgual.addEventListener('click', calcular);
+
+    // Botao CE da calculadora
+    botaoLimparUltimo.addEventListener('click', limparNumeroAtual);
 
     //Botao da calculadora para inverter o sinal
     botaoInverteOperacao.addEventListener('click', inverteOperacao);
@@ -146,6 +138,43 @@ document.addEventListener('DOMContentLoaded', () => {
             numeroAtual += ',';
         }
         visor.textContent = numeroAtual;
+    });
+
+   
+    //Gerencia as açoes do handler
+    const onEventHandler =
+    {
+        'Enter': mostrarResultado,
+        '=': mostrarResultado,
+        'Backspace': (event) => {
+            backSpace();
+        },
+        'Escape': (event) => {
+            limpaTudo()
+        },
+        '1': () => numeros(1),
+        '2': () => numeros(2),
+        '3': () => numeros(3),
+        '4': () => numeros(4),
+        '5': () => numeros(5),
+        '6': () => numeros(6),
+        '7': () => numeros(7),
+        '8': () => numeros(8),
+        '9': () => numeros(9),
+        '0': () => numeros(0),
+        '+': () => operadores({ textContent: '+' }),
+    '-': () => operadores({ textContent: '-' }),
+    '*': () => operadores({ textContent: 'x' }),
+    '/': () => operadores({ textContent: '÷' }),
+    '%': () => operadores({ textContent: '%' }),
+    };
+
+    //Identificador de eventos
+    document.addEventListener('keydown', function (event) {
+        const handler = onEventHandler[event.key]
+        if (handler) {
+            handler(event);
+        }
     });
 });
 
